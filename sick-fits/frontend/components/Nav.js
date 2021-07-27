@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import NavStyles from './styles/NavStyles';
 import SignOut from './SignOut';
+import { useUser } from './User';
+// fix import
  
 export default function Nav() {
     const user = useUser();

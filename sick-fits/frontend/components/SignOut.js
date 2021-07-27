@@ -2,9 +2,10 @@ import { useMutation } from "@apollo/client";
 import gql from "graphql-tag"
 import { CURRENT_USER_QUERY } from "./User";
 
+// endSession isn't a function in graphQL!
 const SIGN_OUT_MUTATION = gql`
     mutation {
-        endSession()
+        endSession
     }
 `;
 

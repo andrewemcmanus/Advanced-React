@@ -6,7 +6,11 @@ import { CURRENT_USER_QUERY } from "./User";
 import Error from './ErrorMessage'
 
 const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
+    mutation SIGNUP_MUTATION(
+        $email: String! 
+        $name: String! 
+        $password: String!
+        ) {
         createUser(data: {
             email: $email,
             name: $name,
