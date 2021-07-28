@@ -5,59 +5,44 @@ import { useMutation } from "@apollo/client";
 import { CURRENT_USER_QUERY } from "./User";
 import Error from './ErrorMessage'
 
-const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-        createUser(data: {
-            email: $email,
-            name: $name,
-            password: $password
-        }) {
-            id
-            email
-            name
+const RESET_MUTATION = gql`
+    mutation RESET_MUTATION($email: String!, $password: String!, $token: String!) {
+        redeemUserPasswordResetToken(
+            email: $email
+            password: $password 
+            token: $token
+        ) {
+            code
+            message
         }
     }
 `;
 
-export default function SignUp() {
+export default function Reset({ token }) {
     const { inputs, handleChange, resetForm } = useForm({
         email: '',
         password: '',
+        token,
     });
 
-    const [signup, { data, loading }] = useMutation(SIGNUP_MUTATION, {
+    const [reset, { data, loading, error }] = useMutation(RESET_MUTATION, {
         variables: inputs,
-        // don't need refetch because we're not signing in here
-        // refetchQueries: [{ query: CURRENT_USER_QUERY }],
     })
-
+    const sucessfulError = data?.redeemUserPasswordResetToken?.code ? data?.redeemUserPasswordResetToken : undefined;
+// change error definition here
     async function handleSubmit(e) {
         e.preventDefault(); // stop the form from submitting
         // send the email and password to the graphQL API
-        const res = await signup().catch(console.error);
+        const res = await reset().catch(console.error);
         resetForm();
     }
 
-    // const error = data?.authenticateUserWithPassword.__typename === 'UserAuthenticationWithPasswordFailure' ? data?.authenticateUserWithPassword : undefined; 
-
     return (
     <Form method="POST" onSubmit={handleSubmit}>
-        <h2>Sign up for an account</h2>
-        <Error error={error} />
+        <h2>Reset your password</h2>
+        <Error error={error || successfulError} />
         <fieldset>
-            {/* Show a "signed up" state: let the user know they're signed up */}
-            {data?.createUser && <p>Signed up with {data.createUser.email} - Please go ahead and sign in!</p>}
-            <label htmlFor="name">
-            Name
-            <input 
-                type="text" 
-                name="name"
-                placeholder="your name"
-                autoComplete="name" 
-                value={inputs.name}
-                onChange={handleChange}
-            /> 
-            </label>
+            {data?.redeemUserPasswordResetToken === null && <p>Success! You can now sign in.</p>}
             <label htmlFor="email">
             Email
             <input 
@@ -80,7 +65,7 @@ export default function SignUp() {
                     onChange={handleChange}
                 />
             </label>
-            <button type="submit">Sign In</button>
+            <button type="submit">Request Reset</button>
         </fieldset>
     </Form>
     )

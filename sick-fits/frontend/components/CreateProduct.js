@@ -20,7 +20,7 @@ const CREATE_PRODUCT_MUTATION = gql`
                 status: "AVAILABLE"
                 photo: { create: { image: $image, altText: $name } }
             }
-         ) {
+        ) {
             id
             price
             description
