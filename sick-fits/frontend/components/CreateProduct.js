@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import DisplayError from './ErrorMessage';
 import { useMutation } from "@apollo/client";
 import Router from 'next/Router';
+import { ALL_PRODUCTS_QUERY } from "./Products";
 // # Which variables are getting passed in? And what types are they?
 const CREATE_PRODUCT_MUTATION = gql`
     mutation CREATE_PRODUCT_MUTATION(
