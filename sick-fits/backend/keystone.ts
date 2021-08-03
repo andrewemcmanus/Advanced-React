@@ -4,6 +4,7 @@ import { createAuth } from '@keystone-next/auth';
 import { User } from './schemas/User';
 import { Product } from './schemas/Product';
 import { ProductImage } from './schemas/ProductImage';
+import { CartItem } from './schemas/CartItem';
 import { withItemData, statelessSessions } from '@keystone-next/keystone/session'
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
@@ -56,7 +57,8 @@ export default withAuth(
         // Schema items go in here
         User,
         Product,
-        ProductImage 
+        ProductImage,
+        CartItem, 
     }),
     ui: {
         // show the UI only for people who pass this test:
