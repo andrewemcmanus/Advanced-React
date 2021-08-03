@@ -13,6 +13,7 @@ export const CartItem = list({
             isRequired: true,
         }),
         product: relationship({ ref: 'Product' }),
+        // two way relationship with User
         user: relationship({ ref: 'User.cart' }),
     },
 });

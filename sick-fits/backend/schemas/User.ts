@@ -9,6 +9,7 @@ export const User = list({
         email: text({ isRequired: true, isUnique: true }),
         password: password(),
         cart: relationship({
+            // two way relationship with CartItem
             ref: 'CartItem.user',
             many: true,
             ui: {
