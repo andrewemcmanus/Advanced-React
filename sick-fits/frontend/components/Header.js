@@ -33,7 +33,7 @@ const HeaderStyles = styled.header`
         border-bottom: 1px solid var(--black, black);
     }
 `;
-
+// CONTEXT AND LOCAL STATE: passing down from above in a different way
 export default function Header() {
     return (
         <HeaderStyles>

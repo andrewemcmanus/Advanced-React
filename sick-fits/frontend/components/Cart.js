@@ -4,6 +4,9 @@ import { useUser } from './User';
 import styled from 'styled-components';
 import formatMoney from '../lib/formatMoney';
 import calcTotalPrice from '../lib/calcTotalPrice';
+import { useCart } from '../lib/cartState';
+import CloseButton from './styles/CloseButton';
+
 // using props with a styled component!
 
 const CartItemStyles = styled.li`
@@ -43,13 +46,16 @@ function CartItem({ cartItem }) {
 
 export default function Cart() {
     const me = useUser();
+    // useCart() brings in data from high level Provider:
+    const { cartOpen, closeCart } = useCart();
     if (!me) return null;
-    console.log(me);
     return (
-    <CartStyles open={true}>
+    <CartStyles open={cartOpen}>
         <header>
             <Supreme>{me.name}'s Cart</Supreme>
+            <CloseButton onClick={closeCart}>&times;</CloseButton>
         </header>
+        
         <ul>
             {me.cart.map(cartItem => (<CartItem key={cartItem.id} cartItem={cartItem} />
             ))}
