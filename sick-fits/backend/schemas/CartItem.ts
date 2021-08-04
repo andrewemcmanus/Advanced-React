@@ -6,7 +6,7 @@ export const CartItem = list({
         listView: {
             initialColumns: ['product', 'quantity', 'user']
         }
-    }
+    },
     fields: {
         quantity: integer({
             defaultValue: 1,
