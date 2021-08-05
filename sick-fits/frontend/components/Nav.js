@@ -3,6 +3,7 @@ import NavStyles from './styles/NavStyles';
 import SignOut from './SignOut';
 import { useUser } from './User';
 import { useCart } from '../lib/cartState';
+import CartCount from './CartCount';
 // fix import
  
 export default function Nav() {
@@ -14,11 +15,15 @@ export default function Nav() {
             {/* if there is a user (i.e. we're logged in) display these 3 Link tags... */}
             { user && (
                 <>
-                <Link href="/sell">Sell</Link>
-                <Link href="/orders">Orders</Link>
-                <Link href="/account">Account</Link>
-                <SignOut />
-                <button type="button" onClick={openCart}>My Cart</button>
+                    <Link href="/sell">Sell</Link>
+                    <Link href="/orders">Orders</Link>
+                    <Link href="/account">Account</Link>
+                    <SignOut />
+                    <button type="button" onClick={openCart}>
+                        My Cart
+                        <CartCount count={user.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0
+                            )} />
+                        </button>
                 </>
             )}
             { !user && (
