@@ -1,9 +1,15 @@
 import { list } from '@keystone-next/keystone/schema'
 import { integer, select, text, relationship } from '@keystone-next/fields'
+import { isSignedIn } from '../access'
 
 export const Product = list({
-    // TODO
-    // access:
+    // CONTROLLING ACCESS: isSignedIn returns true or false
+    access: {
+        create: isSignedIn,
+        read: isSignedIn,
+        update: isSignedIn,
+        delete: isSignedIn,
+    },
     fields: {
         name: text({ isRequired: true }),
         description: text({ ui: {
