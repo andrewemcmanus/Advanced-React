@@ -62,7 +62,7 @@ export default function Search() {
             })
 
         },
-        itemToString: item => item?.name || '';
+        itemToString: item => item?.name || '',
     });
     return (
         <SearchStyles>
