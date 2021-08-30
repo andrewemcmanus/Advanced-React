@@ -1,9 +1,15 @@
 import { list } from '@keystone-next/keystone/schema'
 import { integer, select, text, relationship } from '@keystone-next/fields'
+import { isSignedIn, rules } from '../access'
 
 export const OrderItem = list({
     // TODO
-    // access:
+    access: {
+        create: isSignedIn,
+        read: rules.canManageOrderItems,
+        update: () => false,
+        delete: () => false,
+    },
     fields: {
         name: text({ isRequired: true }),
         description: text({ ui: {
