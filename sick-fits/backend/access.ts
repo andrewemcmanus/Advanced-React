@@ -18,11 +18,14 @@ const generatedPermissions = Object.fromEntries(
 export const permissions = {
     ...generatedPermissions,
 
-}
+};
 // RULE-BASED FUNCTIONS
 // Rules can return a boolean - yes or no - or a filter which limits which products they can CRUD.
 export const rules = {
     canManageProducts({ session }: ListAccessArgs) {
+        if (!isSignedIn({session})) {
+            return false;
+        }
         // 1. Do they have the canManageProucts permission?
         if (permissions.canManageProducts({ session })) {
             return true;
@@ -31,6 +34,9 @@ export const rules = {
         return { user: { id: session.itemId }};
     },
     canOrder({ session }: ListAccessArgs) {
+        if (!isSignedIn({ session })) {
+            return false;
+        }
         if (permissions.canManageCart({ session })) {
             return true;
         }
@@ -38,16 +44,32 @@ export const rules = {
 
     },
     canManageOrderItems({ session }: ListAccessArgs) {
+        if (!isSignedIn({ session })) {
+            return false;
+        }
         if (permissions.canManageCart({ session })) {
             return true;
         }
-        return { order: {user: { id: session.itemId } } }
+        return { order: { user: { id: session.itemId } } }
     },
     canReadProducts({ session }: ListAccessArgs) {
+        if (!isSignedIn({ session })) {
+            return false;
+        }
         if (permissions.canManageProducts({ session })) {
             return true;
         }
         // binds as a where clause in graphQL API to only show products that are available
         return { status: 'AVAILABLE' }
-    }
+    },
+    canManageUsers({ session }: ListAccessArgs ) {
+        if (!isSignedIn({ session })) {
+            return false;
+        }
+        if (permissions.canManageUsers({ session })) {
+            return true;
+        }
+        // otherwise they may only update themselves
+        return { id: session.itemId };
+    },
 }
